@@ -1,0 +1,19 @@
+{
+    "name": "synthiano",
+    "version": "1.0.0",
+    "description": "A fusion of Amapiano and Synthwave sound synthesis",
+    "main": "src/index.html",
+    "scripts": {
+      "start": "live-server src/",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "web-audio",
+      "synthesis",
+      "amapiano",
+      "synthwave",
+      "music"
+    ],
+    "author": "David Bakka",
+    "license": "MIT"
+  }
