@@ -1,9 +1,9 @@
 // Import components
-import createLogDrum from './logDrum.js';
-import createSynthPad from './synthPad.js';
-import createSynthArp from './synthArp.js';
-import createPercussion from './percussion.js';
-import createSynthBass from './synthBass.js';
+import createLogDrum from './components/logDrum.js';
+import createSynthPad from './components/synthPad.js';
+import createSynthArp from './components/synthArp.js';
+import createPercussion from './components/percussion.js';
+import createSynthBass from './components/synthBass.js';
 
 class SynthianoTester {
     constructor() {
