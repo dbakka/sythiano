@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Synthiano Component Tester</title>
+    <style>
+        .playing { 
+            background-color: #4CAF50; 
+            color: white; 
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #debug {
+            margin: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Synthiano Component Tester</h1>
+    <div id="debug">Status: Waiting for initialization...</div>
+    <button onclick="initAndPlay('logDrum')" id="logDrumBtn">Log Drum</button>
+    <button onclick="initAndPlay('synthPad')" id="synthPadBtn">Synth Pad</button>
+    <button onclick="initAndPlay('synthArp')" id="synthArpBtn">Arpeggiator</button>
+    <button onclick="initAndPlay('percussion')" id="percussionBtn">Percussion</button>
+    <button onclick="initAndPlay('synthBass')" id="synthBassBtn">Synth Bass</button>
+    <button onclick="stopAll()">Stop All</button>
+
+    <script type="module">
+        import SynthianoTester from './test.js';
+        
+        window.tester = null;
+        const debug = document.getElementById('debug');
+
+        window.initAndPlay = async (component) => {
+            try {
+                if (!window.tester) {
+                    debug.textContent = 'Initializing audio context...';
+                    window.tester = new SynthianoTester();
+                    await window.tester.audioContext.resume();
+                    debug.textContent = 'Audio context initialized!';
+                }
+                
+                debug.textContent = `Playing ${component}...`;
+                await window.tester.testComponent(component);
+                document.getElementById(`${component}Btn`).classList.toggle('playing');
+            } catch (error) {
+                debug.textContent = `Error: ${error.message}`;
+                console.error('Audio Error:', error);
+            }
+        };
+        
+        window.stopAll = () => {
+            if (window.tester) {
+                debug.textContent = 'Stopping all components...';
+                window.tester.stopAll();
+                document.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('playing');
+                });
+                debug.textContent = 'All components stopped';
+            }
+        };
+
+        // Check for browser audio support
+        if (window.AudioContext || window.webkitAudioContext) {
+            debug.textContent = 'Audio supported. Click any button to start.';
+        } else {
+            debug.textContent = 'ERROR: Web Audio not supported in this browser!';
+        }
+    </script>
+</body>
+</html>
